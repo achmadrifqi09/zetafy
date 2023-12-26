@@ -8,6 +8,7 @@ use App\Http\Requests\UserUpdateAvatarRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserAuthResource;
+use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
@@ -174,5 +175,11 @@ class UserController extends Controller
         return response()->json([
             'data' => true
         ]);
+    }
+
+    public function list()
+    {
+        $users = User::all();
+        return new UserCollection($users);
     }
 }
