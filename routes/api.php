@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -16,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::group(['prefix' => 'v1', 'middleware' => 'verify_app_key'], function () {
     Route::post('/users', [UserController::class, 'register']);
     Route::post('users/login', [UserController::class, 'login']);
@@ -31,6 +28,12 @@ Route::group(['prefix' => 'v1', 'middleware' => 'verify_app_key'], function () {
         Route::post('/users/current/avatar', [UserController::class, 'updateAvatar']);
         Route::post('/users/current/delete', [UserController::class, 'destroy']);
         Route::get('/users/logout', [UserController::class, 'logout']);
+
+        Route::post('/users/addresses', [AddressController::class, 'create']);
+        Route::get('/users/addresses', [AddressController::class, 'list']);
+        Route::get('/users/addresses/{id}', [AddressController::class, 'get']);
+        Route::put('/users/addresses/{id}', [AddressController::class, 'update']);
+        Route::delete('/users/addresses/{id}', [AddressController::class, 'destroy']);
     });
 
     Route::group(['middleware' => ['auth:sanctum', 'administrator_owner_permission']], function () {
