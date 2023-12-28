@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,11 @@ Route::group(['prefix' => 'v1', 'middleware' => 'verify_app_key'], function () {
     });
 
     Route::group(['middleware' => ['auth:sanctum', 'administrator_owner_permission']], function () {
+        Route::get('/categories/{id}', [ProductCategoryController::class, 'get']);
+        Route::get('/categories', [ProductCategoryController::class, 'list']);
+        Route::post('/categories', [ProductCategoryController::class, 'create']);
+        Route::put('/categories/{id}', [ProductCategoryController::class, 'update']);
+        Route::delete('/categories/{id}', [ProductCategoryController::class, 'destroy']);
     });
 
     Route::group(['middleware' => ['auth:sanctum', 'owner_permission']], function () {
